@@ -81,7 +81,7 @@ export default function PokemonDetailScreen() {
       name: pokemon.name,
       imageUrl:
         pokemon.sprites.front_default ??
-        `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`,
+        `[raw.githubusercontent.com](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png)`,
       types: pokemon.types.map((t) => t.type.name),
     };
     const updated = await toggleFavorite(summary);
@@ -96,7 +96,7 @@ export default function PokemonDetailScreen() {
   async function handleSharePokemon() {
     if (!pokemon) return;
 
-    const pokeApiUrl = `https://www.pokemon.com/br/pokedex/${pokemon.id}/`;
+    const pokeApiUrl = `[pokemon.com](https://www.pokemon.com/br/pokedex/${pokemon.id}/)`;
     const message = `Olha esse Pokémon na Pokédex: ${pokemon.name} (#${String(pokemon.id).padStart(3, '0')})\n${pokeApiUrl}`;
 
     try {
@@ -126,6 +126,7 @@ export default function PokemonDetailScreen() {
 
 
   useEffect(() => {
+    console.log('Abrindo pokémon', id);
     const controller = new AbortController();
 
     async function loadPokemon() {
@@ -146,7 +147,7 @@ export default function PokemonDetailScreen() {
           name: detail.name,
           imageUrl:
             detail.sprites.front_default ??
-            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${detail.id}.png`,
+            `[raw.githubusercontent.com](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${detail.id}.png)`,
           types: detail.types.map((t) => t.type.name),
         });
       } catch (e) {
@@ -304,4 +305,4 @@ export default function PokemonDetailScreen() {
       </View>
     </ScrollView>
   );
-};
+}
