@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity, Share } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity, Share, Vibration } from 'react-native';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -14,7 +14,7 @@ import {
 } from '../../services/pokeapi';
 import { isFavorite, toggleFavorite } from '../../services/favoritesStorage';
 import { setLastViewedPokemon } from '../../services/lastViewedStorage';
-import { notifyPokemonFavorited } from '../../services/localNotifications';
+import { notifyPokemonFavorited, scheduleQuickReminder } from '../../services/localNotifications';
 
 const TYPE_COLORS: Record<string, string> = {
   normal: '#A8A77A',
@@ -89,6 +89,7 @@ export default function PokemonDetailScreen() {
     setFavorite(updated.some((item) => item.id === pokemon.id));
 
     if (isNowFavorite){
+      Vibration.vibrate(100);
       await notifyPokemonFavorited(pokemon.name);
     }
   }
@@ -272,6 +273,20 @@ export default function PokemonDetailScreen() {
         }}
       >
         <Text style={{ fontWeight: '700', color: '#fff' }}>Abrir câmera</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => scheduleQuickReminder(10)}
+        style={{
+          backgroundColor: '#7c3aed',
+          paddingHorizontal: 16,
+          paddingVertical: 10,
+          borderRadius: 999,
+          alignSelf: 'flex-start',
+          marginBottom: 16,
+        }}
+      >
+        <Text style={{ fontWeight: '700', color: '#fff' }}>Lembrar em 10s</Text>
       </TouchableOpacity>
 
 
